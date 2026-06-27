@@ -125,8 +125,11 @@ def get_stats() -> dict:
             )
             today_count = cur.fetchone()[0]
 
+            from datetime import timedelta
+            week_ago = (datetime.now(timezone.utc) - timedelta(days=7)).isoformat()
             cur.execute(
-                "SELECT COUNT(*) FROM waitlist WHERE signed_up_at >= NOW() - INTERVAL '7 days'"
+                "SELECT COUNT(*) FROM waitlist WHERE signed_up_at >= %s",
+                (week_ago,),
             )
             week_count = cur.fetchone()[0]
 
