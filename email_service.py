@@ -1,16 +1,17 @@
 import os
 import threading
-import resend
+import httpx
 
-RESEND_API_KEY = os.getenv("RESEND_API_KEY", "")
+BREVO_API_KEY = os.getenv("BREVO_API_KEY", "")
+FROM_EMAIL = "webuild6767@gmail.com"
+FROM_NAME = "FreelanceGuard AI"
 
 
 def _send(to_email: str, name: str, position: int) -> None:
-    if not RESEND_API_KEY:
-        print("Email skipped: RESEND_API_KEY not set")
+    if not BREVO_API_KEY:
+        print("Email skipped: BREVO_API_KEY not set")
         return
 
-    resend.api_key = RESEND_API_KEY
     first = name.split()[0] if name else "there"
 
     html = f"""
@@ -19,7 +20,7 @@ def _send(to_email: str, name: str, position: int) -> None:
 <body style="margin:0;padding:0;background:#000000;font-family:'Inter',Arial,sans-serif;-webkit-font-smoothing:antialiased">
   <table width="100%" cellpadding="0" cellspacing="0" style="background:#000000;padding:40px 20px">
     <tr><td align="center">
-      <table width="520" cellpadding="0" cellspacing="0" style="max-width:520px;width:100%;background:#0a0a0c;border:1px solid rgba(255,255,255,0.1);border-radius:12px;padding:40px">
+      <table width="520" cellpadding="0" cellspacing="0" style="max-width:520px;width:100%;background:#0a0a0c;border:1px solid rgba(255,255,255,0.1);border-radius:12px">
 
         <!-- Brand -->
         <tr><td style="padding:40px 40px 32px">
@@ -74,7 +75,7 @@ def _send(to_email: str, name: str, position: int) -> None:
           </p>
         </td></tr>
 
-        <!-- Divider + Footer -->
+        <!-- Footer -->
         <tr><td style="padding:0 40px 40px;border-top:1px solid rgba(255,255,255,0.06)">
           <p style="margin:16px 0 0;font-size:11px;color:#464a4d;line-height:1.6">
             You're receiving this because you joined the FreelanceGuard AI waitlist.<br>
@@ -90,13 +91,25 @@ def _send(to_email: str, name: str, position: int) -> None:
 """
 
     try:
-        resend.Emails.send({
-            "from": "FreelanceGuard AI <onboarding@resend.dev>",
-            "to": [to_email],
-            "subject": f"You're in, {first} — FreelanceGuard AI",
-            "html": html,
-        })
-        print(f"Welcome email sent to {to_email}")
+        resp = httpx.post(
+            "https://api.brevo.com/v3/smtp/email",
+            headers={
+                "accept": "application/json",
+                "api-key": BREVO_API_KEY,
+                "content-type": "application/json",
+            },
+            json={
+                "sender": {"name": FROM_NAME, "email": FROM_EMAIL},
+                "to": [{"email": to_email, "name": name}],
+                "subject": f"You're in, {first} — FreelanceGuard AI",
+                "htmlContent": html,
+            },
+            timeout=10,
+        )
+        if resp.status_code == 201:
+            print(f"Welcome email sent to {to_email}")
+        else:
+            print(f"Email send failed for {to_email}: {resp.status_code} {resp.text}")
     except Exception as exc:
         print(f"Email send failed for {to_email}: {exc}")
 
