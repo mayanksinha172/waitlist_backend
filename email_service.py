@@ -32,7 +32,7 @@ def _send(to_email: str, name: str, position: int) -> None:
         <!-- Headline -->
         <tr><td style="padding:0 40px 20px">
           <h1 style="margin:0;font-size:28px;font-weight:400;line-height:1.25;color:#fcfdff">
-            You're #<span style="color:#11ff99">{position}</span> on the list, {first}.
+            You're on the list, <span style="color:#11ff99">{first}.</span>
           </h1>
         </td></tr>
 
