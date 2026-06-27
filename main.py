@@ -64,7 +64,7 @@ app.add_middleware(
 @app.on_event("startup")
 def startup():
     init_db()
-    print(f"✓ Database ready | CORS origins: {ALLOWED_ORIGINS}")
+    print(f"✓ Database ready v5 | CORS origins: {ALLOWED_ORIGINS}")
 
 
 # ── Public ────────────────────────────────────────────────────────────────────

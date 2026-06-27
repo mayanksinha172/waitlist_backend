@@ -113,20 +113,22 @@ def get_all_for_export() -> list[dict]:
 
 
 def get_stats() -> dict:
+    from datetime import timedelta
+    now = datetime.now(timezone.utc)
+    today_prefix = now.date().isoformat()
+    week_ago = (now - timedelta(days=7)).isoformat()
+
     with get_db() as conn:
         with conn.cursor() as cur:
             cur.execute("SELECT COUNT(*) FROM waitlist")
             total = cur.fetchone()[0]
 
-            today = datetime.now(timezone.utc).date().isoformat()
             cur.execute(
-                "SELECT COUNT(*) FROM waitlist WHERE signed_up_at LIKE %s",
-                (f"{today}%",),
+                "SELECT COUNT(*) FROM waitlist WHERE LEFT(signed_up_at, 10) = %s",
+                (today_prefix,),
             )
             today_count = cur.fetchone()[0]
 
-            from datetime import timedelta
-            week_ago = (datetime.now(timezone.utc) - timedelta(days=7)).isoformat()
             cur.execute(
                 "SELECT COUNT(*) FROM waitlist WHERE signed_up_at >= %s",
                 (week_ago,),
