@@ -1,5 +1,5 @@
 """
-FreelanceGuard AI — API (public waitlist + admin)
+LanceGuardAI — API (public waitlist + admin)
 Run: uvicorn main:app --reload --port 8000
 """
 import csv
@@ -48,7 +48,7 @@ ALLOWED_ORIGINS = [
 
 limiter = Limiter(key_func=get_remote_address)
 
-app = FastAPI(title="FreelanceGuard AI API", version="1.0.0")
+app = FastAPI(title="LanceGuardAI API", version="1.0.0")
 app.state.limiter = limiter
 app.add_exception_handler(RateLimitExceeded, _rate_limit_exceeded_handler)
 

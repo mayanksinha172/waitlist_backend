@@ -4,7 +4,7 @@ import httpx
 
 BREVO_API_KEY = os.getenv("BREVO_API_KEY", "")
 FROM_EMAIL = "webuild6767@gmail.com"
-FROM_NAME = "FreelanceGuard AI"
+FROM_NAME = "LanceGuardAI"
 
 
 def _send(to_email: str, name: str, position: int) -> None:
@@ -25,7 +25,7 @@ def _send(to_email: str, name: str, position: int) -> None:
         <!-- Brand -->
         <tr><td style="padding:40px 40px 32px">
           <span style="font-size:11px;color:#11ff99;font-weight:600;letter-spacing:0.1em;text-transform:uppercase">
-            FreelanceGuard AI
+            LanceGuardAI
           </span>
         </td></tr>
 
@@ -62,7 +62,7 @@ def _send(to_email: str, name: str, position: int) -> None:
         <!-- Product line -->
         <tr><td style="padding:0 40px 32px">
           <p style="margin:0;font-size:13px;line-height:1.7;color:rgba(252,253,255,0.35);border-left:2px solid rgba(17,255,153,0.3);padding-left:14px">
-            FreelanceGuard AI writes proposals in under 60 seconds, detects scope creep in real time,
+            LanceGuardAI writes proposals in under 60 seconds, detects scope creep in real time,
             and auto-generates priced change orders — so every hour of work gets paid.
           </p>
         </td></tr>
@@ -71,14 +71,14 @@ def _send(to_email: str, name: str, position: int) -> None:
         <tr><td style="padding:0 40px 32px">
           <p style="margin:0;font-size:15px;line-height:1.75;color:rgba(252,253,255,0.7)">
             Thanks for being early.<br><br>
-            <span style="color:#fcfdff;font-weight:500">— The FreelanceGuard AI team</span>
+            <span style="color:#fcfdff;font-weight:500">— The LanceGuardAI team</span>
           </p>
         </td></tr>
 
         <!-- Footer -->
         <tr><td style="padding:0 40px 40px;border-top:1px solid rgba(255,255,255,0.06)">
           <p style="margin:16px 0 0;font-size:11px;color:#464a4d;line-height:1.6">
-            You're receiving this because you joined the FreelanceGuard AI waitlist.<br>
+            You're receiving this because you joined the LanceGuardAI waitlist.<br>
             No spam ever. Reply to unsubscribe.
           </p>
         </td></tr>
@@ -101,7 +101,7 @@ def _send(to_email: str, name: str, position: int) -> None:
             json={
                 "sender": {"name": FROM_NAME, "email": FROM_EMAIL},
                 "to": [{"email": to_email, "name": name}],
-                "subject": f"You're in, {first} — FreelanceGuard AI",
+                "subject": f"You're in, {first} — LanceGuardAI",
                 "htmlContent": html,
             },
             timeout=10,
